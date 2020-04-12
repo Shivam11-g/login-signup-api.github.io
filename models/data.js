@@ -1,19 +1,24 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 
-const DataSchema = new Schema({
+
+mongoose.connect('mongodb+srv://shivam11:shivam11@cluster0-rkp9u.mongodb.net/test?retryWrites=true&w=majority',
+ {
+   useNewUrlParser: true,  useUnifiedTopology: true
+ })
+// var const = mongoose.Connection
+
+const DataSchema = mongoose.Schema({
   Name:{
     type:String
   },
   MobileNo:{
-    type:String
+    type:Number
   },
   Password:{
     type: String
   }
   // add in geo location
 })
+ 
 
-const LoginData = mongoose.model('loginData', DataSchema)
-
-module.exports = LoginData
+module.exports = mongoose.model('loginData', DataSchema)

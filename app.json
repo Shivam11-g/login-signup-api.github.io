@@ -1,0 +1,7 @@
+{
+  "name": "Node.js Getting Started",
+  "description": "An login sign up page using mongoDB",
+  "repository": "https://github.com/Shivam11-g/login-signup-api",
+  "keywords": ["node", "express", "static"],
+  "image": "heroku/node.js"
+}
