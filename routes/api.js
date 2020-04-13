@@ -1,11 +1,45 @@
 
 // const bcrypt = require('Bcrypt')
 const express = require('express')
+const multer = require('multer')
+
 const router = express.Router()
+
+
 const Data = require('../models/data')
 
 var bodyParser = require('body-parser')
 var urlencodedParser = bodyParser.urlencoded({ extended: true })
+
+
+
+const imageStorage = multer.diskStorage({
+  destination: function (req, file ,cb ) {
+    cb(null, './uplodes/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.body.Name +"."+ file.originalname)
+  }
+})
+
+const fileFilter = (req, file, cb)=>{
+
+  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+    cb(null, true)
+  }
+  else{
+    cb(null, false)
+  }
+}
+
+const upload = multer({
+  storage: imageStorage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+  
+})
 
 module.exports = function(router){
 
@@ -103,7 +137,7 @@ module.exports = function(router){
       res.status(200).render('homePage')
   })
 
-  router.post('/signup', urlencodedParser, function(req, res, next){
+  router.post('/signup', urlencodedParser, upload.single('userImage'), function (req, res, next) {
 
     // const signupData = new data({
     //   Name: req.body.Name,
@@ -128,8 +162,7 @@ module.exports = function(router){
         // console.log(req.body.Password);
         // req.body.Password = hash;
         Data.create(req.body).then(function(data){
-          console.log(req.body);
-            console.log(data);
+          console.log(req.file);
           // res.send({
           //     data
           // })
@@ -143,6 +176,7 @@ module.exports = function(router){
               name: data.Name,
               mobileNo: data.MobileNo,
               password: data.Password,
+              userImage: req.file.path,
               _id: data._id,
               req:{
                 type: 'GET',
