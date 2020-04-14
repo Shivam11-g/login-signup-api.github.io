@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 
+dotenv.config()
 
-mongoose.connect('mongodb+srv://shivam11:shivam11@cluster0-rkp9u.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect(
+  process.env.DB_CONNECT,
  {
    useNewUrlParser: true,  useUnifiedTopology: true
  })
@@ -9,7 +12,7 @@ mongoose.connect('mongodb+srv://shivam11:shivam11@cluster0-rkp9u.mongodb.net/tes
 
 const DataSchema = mongoose.Schema({
 
-  // _id: mongoose.Schema.Types.ObjectId,
+ // _id: mongoose.Schema.Types.ObjectId,
   
   Name:{
     type: String, required: true
@@ -20,7 +23,7 @@ const DataSchema = mongoose.Schema({
   Password:{
     type: String, required: true
   },
-  userImage:{
+  UserImage:{
     type: String, required: true
   }
   // add in geo location

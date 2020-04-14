@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 
 // const appController = require('./controllers/appController')
 const appRoutes = require('./routes/api')
+const privateRoutes = require('./routes/privateRoutes')
 
 //
 const app = express()
@@ -13,9 +14,12 @@ const app = express()
 // app.use(morgan('dev'))
 
 
+app.use('/uploads', express.static('uploads'))
+
 //middleware
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false}))
+app.use(express.json())
+// app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: false}))
 
 app.use((err, req, res, next)=>{
   res.header("Access-Control-Allow-Origin", "*")
@@ -35,7 +39,9 @@ app.set('view engine', 'ejs')
 app.use('/css', express.static('style'));
 
 
-appRoutes(app);
+//appRoutes(app);
+app.use('/', appRoutes)
+app.use('/api', privateRoutes)   
 
 
 app.use((req, res, next)=>{
