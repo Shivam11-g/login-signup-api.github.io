@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 // const appController = require('./controllers/appController')
 const appRoutes = require('./routes/api')
 
-//
+
 const app = express()
 
 //connect to mongoDB
